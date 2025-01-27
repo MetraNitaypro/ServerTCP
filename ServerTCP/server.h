@@ -34,8 +34,7 @@ private slots:
 
     void onDisconnected() {
         qDebug() << "Client disconnected.";
-        m_socket->deleteLater();
-        this->deleteLater();
+        QThread::currentThread()->quit();
     }
 
     uint8_t processByte(uint8_t byte) {
@@ -81,6 +80,7 @@ protected:
 
             connect(clientThread, &QThread::finished, clientThread, &QThread::deleteLater);
             connect(clientThread, &QThread::finished, handler, &ClientHandler::deleteLater);
+            connect(clientThread, &QThread::finished, clientSocket, &QTcpSocket::deleteLater);
 
             clientThread->start();
         } else {
