@@ -22,9 +22,11 @@ class LOGGER_EXPORT FileLogger : public QObject {
 public:
     explicit FileLogger(const QString &filePath);
     ~FileLogger();
-
+public Q_SLOTS:
     void logMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
+Q_SIGNALS:
+    void signallogMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 private:
     QFile logFile;
 };

@@ -24,11 +24,12 @@ private slots:
         QByteArray data = m_socket->readAll();
         qDebug() << "Data received from client:" << data;
 
-        QByteArray data_res;
-        for (auto elem : data) {
-            data_res.push_back(processByte(elem));
+       // QByteArray data_res;
+        for (auto &elem : data) {
+            elem = processByte(elem);
+           // data_res.push_back(processByte(elem));
         }
-        m_socket->write(data_res);
+        m_socket->write(data);
     }
 
     void onDisconnected() {

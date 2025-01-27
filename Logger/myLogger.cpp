@@ -1,6 +1,7 @@
 #include "myLogger.h"
 
 FileLogger::FileLogger(const QString &filePath) {
+    connect(this, &FileLogger::signallogMessage, this, &FileLogger::logMessage);
     logFile.setFileName(filePath);
     if (!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
         qWarning() << "Failed to open file for logging";
@@ -43,5 +44,6 @@ void FileLogger::logMessage(QtMsgType type, const QMessageLogContext &context, c
 
 void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
     static FileLogger logger("application.log");
-    logger.logMessage(type, context, msg);
+   // logger.logMessage(type, context, msg);
+    emit logger.signallogMessage(type, context, msg);
 }
